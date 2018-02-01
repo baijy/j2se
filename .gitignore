@@ -13,3 +13,5 @@ target
 .settings
 .metadata
 .mymetadata
+.classpath
+.project
