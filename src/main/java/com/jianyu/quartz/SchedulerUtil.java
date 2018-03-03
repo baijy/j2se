@@ -21,29 +21,34 @@ import com.alibaba.fastjson.JSONObject;
 
 public class SchedulerUtil {
 	private static Logger logger = LoggerFactory.getLogger(SchedulerUtil.class);
-	
+
 	/**
 	 * 新增定时任务
-	 * @param jobClassName 类路径
-	 * @param jobName 任务名称
-	 * @param jobGroupName 组别
+	 * 
+	 * @param jobClassName
+	 *            类路径
+	 * @param jobName
+	 *            任务名称
+	 * @param jobGroupName
+	 *            组别
 	 * @param cronExpression
 	 * @throws Exception
 	 */
-	public static void addJob(String jobClassName,String jobName, String jobGroupName, String cronExpression,String jobDataMap) throws Exception {
+	public static void addJob(String jobClassName, String jobName, String jobGroupName, String cronExpression,
+			String jobDataMap) throws Exception {
 		// 通过SchedulerFactory获取一个调度器实例
 		SchedulerFactory sf = new StdSchedulerFactory();
 		Scheduler sched = sf.getScheduler();
 		// 启动调度器
 		sched.start();
 		// 构建job信息
-		JobDetail jobDetail = JobBuilder.newJob(getClass(jobClassName).getClass())
-				.withIdentity(jobName, jobGroupName).build();
+		JobDetail jobDetail = JobBuilder.newJob(getClass(jobClassName).getClass()).withIdentity(jobName, jobGroupName)
+				.build();
 		if (StringUtils.isNotEmpty(jobDataMap)) {
 			JSONObject jb = JSONObject.parseObject(jobDataMap);
-			Map<String, Object> dataMap =(Map<String, Object>) jb.get("data");
-			for (Map.Entry<String, Object> m:dataMap.entrySet()) {
-				jobDetail.getJobDataMap().put(m.getKey(),m.getValue());
+			Map<String, Object> dataMap = (Map<String, Object>) jb.get("data");
+			for (Map.Entry<String, Object> m : dataMap.entrySet()) {
+				jobDetail.getJobDataMap().put(m.getKey(), m.getValue());
 			}
 		}
 		// 表达式调度构建器(即任务执行的时间)
@@ -58,56 +63,69 @@ public class SchedulerUtil {
 			throw new Exception("创建定时任务失败");
 		}
 	}
-	
+
 	/**
 	 * 停用一个定时任务
-	 * @param jobName 任务名称
-	 * @param jobGroupName 组别
+	 * 
+	 * @param jobName
+	 *            任务名称
+	 * @param jobGroupName
+	 *            组别
 	 * @throws Exception
 	 */
 	public static void jobPause(String jobName, String jobGroupName) throws Exception {
 		// 通过SchedulerFactory获取一个调度器实例
 		SchedulerFactory sf = new StdSchedulerFactory();
 		Scheduler sched = sf.getScheduler();
-		logger.info("\n停用任务[ "+jobName+" ]开始... ...");
+		logger.info("\n停用任务[ " + jobName + " ]开始... ...");
 		sched.pauseJob(JobKey.jobKey(jobName, jobGroupName));
 	}
-	
+
 	/**
 	 * 启用一个定时任务
-	 * @param jobName 任务名称
-	 * @param jobGroupName 组别
+	 * 
+	 * @param jobName
+	 *            任务名称
+	 * @param jobGroupName
+	 *            组别
 	 * @throws Exception
 	 */
 	public static void jobresume(String jobName, String jobGroupName) throws Exception {
 		// 通过SchedulerFactory获取一个调度器实例
 		SchedulerFactory sf = new StdSchedulerFactory();
 		Scheduler sched = sf.getScheduler();
-		logger.info("\n启用任务[ "+jobName+" ]开始... ...");
+		logger.info("\n启用任务[ " + jobName + " ]开始... ...");
 		sched.resumeJob(JobKey.jobKey(jobName, jobGroupName));
 	}
-	
+
 	/**
 	 * 删除一个定时任务
-	 * @param jobName 任务名称
-	 * @param jobGroupName 组别
+	 * 
+	 * @param jobName
+	 *            任务名称
+	 * @param jobGroupName
+	 *            组别
 	 * @throws Exception
 	 */
 	public static void jobdelete(String jobName, String jobGroupName) throws Exception {
 		// 通过SchedulerFactory获取一个调度器实例
 		SchedulerFactory sf = new StdSchedulerFactory();
 		Scheduler sched = sf.getScheduler();
-		logger.info("\n删除定时任务[ "+ jobName +" ]开始");
+		logger.info("\n删除定时任务[ " + jobName + " ]开始");
 		sched.pauseTrigger(TriggerKey.triggerKey(jobName, jobGroupName));
 		sched.unscheduleJob(TriggerKey.triggerKey(jobName, jobGroupName));
 		sched.deleteJob(JobKey.jobKey(jobName, jobGroupName));
 	}
-	
+
 	/**
 	 * 更新定时任务表达式
-	 * @param jobName 任务名称
-	 * @param jobGroupName 组别
-	 * @param cronExpression Cron表达式
+	 * 
+	 * @param jobName
+	 *            任务名称
+	 * @param jobGroupName
+	 *            组别
+	 * @param cronExpression
+	 *            Cron表达式
 	 * @throws Exception
 	 */
 	public static void jobReschedule(String jobName, String jobGroupName, String cronExpression) throws Exception {
@@ -119,18 +137,20 @@ public class SchedulerUtil {
 			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
 			CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
 			// 按新的cronExpression表达式重新构建trigger
-			trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).startNow().build();
+			trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).startNow()
+					.build();
 			// 按新的trigger重新设置job执行
-			logger.info("\n变更定时任务[ "+ jobName +" ]表达式开始");
+			logger.info("\n变更定时任务[ " + jobName + " ]表达式开始");
 			scheduler.rescheduleJob(triggerKey, trigger);
 		} catch (SchedulerException e) {
 			System.out.println("更新定时任务失败" + e);
 			throw new Exception("更新定时任务失败");
 		}
 	}
-	
+
 	/**
 	 * 检查Job是否存在
+	 * 
 	 * @throws Exception
 	 */
 	public static Boolean isResume(String jobName, String jobGroupName) throws Exception {
@@ -138,13 +158,13 @@ public class SchedulerUtil {
 		Scheduler sched = sf.getScheduler();
 		TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroupName);
 		Boolean state = sched.checkExists(triggerKey);
-	     
+
 		return state;
 	}
 
-	
 	/**
 	 * 暂停所有任务
+	 * 
 	 * @throws Exception
 	 */
 	public static void pauseAlljob() throws Exception {
@@ -155,6 +175,7 @@ public class SchedulerUtil {
 
 	/**
 	 * 唤醒所有任务
+	 * 
 	 * @throws Exception
 	 */
 	public static void resumeAlljob() throws Exception {
@@ -163,17 +184,15 @@ public class SchedulerUtil {
 		sched.resumeAll();
 
 	}
-	
+
 	public static BaseJob getClass(String classname) throws Exception {
+		Class<?> c = null;
 		try {
-			Class<?> c = Class.forName(classname);
-			return (BaseJob) c.newInstance();
+			c = Class.forName(classname);
 		} catch (Exception e) {
-			//throw new BizException("类["+classname+"]不存在！");
+			// throw new BizException("类["+classname+"]不存在！");
 		}
-		return null;
-		
+		return (BaseJob) c.newInstance();
 	}
 
 }
-
