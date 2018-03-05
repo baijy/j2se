@@ -14,8 +14,8 @@ import com.jianyu.db.jdbc.JdbcUtil;
 public class MailTest {
 	public static void main(String[] args) throws Exception {
 		Properties props = new Properties();
-		ClassLoader classLoader = JdbcUtil.class.getClassLoader();// 读取属性文件xxxxx.properties
-		InputStream in = classLoader.getResourceAsStream("db.properties");
+		ClassLoader classLoader = JdbcUtil.class.getClassLoader();
+		InputStream in = classLoader.getResourceAsStream("mail.properties");
 		props.load(in);
 
 		// 发件人的 邮箱 和 密码（替换为自己的邮箱和密码）
