@@ -29,7 +29,11 @@ public class ImportTask implements Runnable {
         try {
             while (i <= end) {
                 XSSFRow row = sheet.getRow(i);
-                System.out.print(" 正在处理第"+i+"行：");
+                System.out.print(" 正在处理第"+(i+1)+"行：");
+
+                //模拟每一行的业务逻辑
+                Thread.sleep(200);
+
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     XSSFCell cell = row.getCell(j);
                     if (null != cell) {
@@ -54,8 +58,6 @@ public class ImportTask implements Runnable {
             e.printStackTrace();
         } finally {
             doneSignal.countDown();
-            System.out.println("start: " + start + " end: " + end
-                    + " Count: " + doneSignal.getCount());
         }
     }
 
