@@ -9,7 +9,6 @@ import java.util.concurrent.CountDownLatch;
 /**
  * http://blog.csdn.net/huihuijor/article/details/38040195
  * https://www.cnblogs.com/wihainan/p/4765862.html
- *
  */
 public class ImportTask implements Runnable {
     private final CountDownLatch doneSignal; //读取结束标志
@@ -29,7 +28,7 @@ public class ImportTask implements Runnable {
         try {
             while (i <= end) {
                 XSSFRow row = sheet.getRow(i);
-                System.out.print(" 正在处理第"+(i+1)+"行：");
+                System.out.print(" 正在处理第" + (i + 1) + "行：");
 
                 //模拟每一行的业务逻辑
                 Thread.sleep(200);
@@ -47,7 +46,7 @@ public class ImportTask implements Runnable {
                         }
 
                         if (null != cellValue && !cellValue.equals("")) {
-                            System.out.print(cellValue+" ");
+                            System.out.print(cellValue + " ");
                         }
                     }
                 }

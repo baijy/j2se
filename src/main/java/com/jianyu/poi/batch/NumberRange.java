@@ -1,13 +1,11 @@
 package com.jianyu.poi.batch;
 
-import java.util.Arrays;
-
 public class NumberRange {
     public static void main(String[] args) {
 
         int x = 1002; // 数据总行数，包括标题行
-        int y = 10; // 均分成几份处理
-        int z = 0; // 标题行有几行
+        int y =6; // 均分成几份处理
+        int z = 2; // 标题行有几行
 
         int[][] array = getRangeArray(x, y, z);
 
@@ -31,8 +29,8 @@ public class NumberRange {
         for (int m = 0; m < y; m++) {
             array[m][0] = z;
             array[m][1] = z + average-1; // 平均数-1，就是index增加的数量
+            // 余数叠加到最后一个线程处理
             if (m == y - 1) {
-                // 余数叠加到最后一个线程处理
                 array[m][1] += remainder;
             }
             //下一个起始序号
