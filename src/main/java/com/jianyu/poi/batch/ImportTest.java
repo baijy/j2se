@@ -13,8 +13,8 @@ import java.util.concurrent.Executors;
 public class ImportTest {
     public static void main(String[] args) throws IOException {
         //ExecutorService es = Executors.newCachedThreadPool();
-        final int POOL_SIZE=10;
-        final int TITLE_ROWS=2;
+        final int POOL_SIZE = 50;
+        final int TITLE_ROWS = 2;
         ExecutorService es = Executors.newFixedThreadPool(POOL_SIZE);
         CountDownLatch doneSignal = new CountDownLatch(POOL_SIZE);
         String path = "D:\\testfile\\file\\1000行.xlsx";
@@ -25,12 +25,12 @@ public class ImportTest {
         XSSFSheet sheet = workbook.getSheetAt(0);
 
         long readFinished = System.currentTimeMillis();
-        System.out.println("Excel读取完毕，耗时："+(readFinished-start)+"ms");
+        System.out.println("Excel读取完毕，耗时：" + (readFinished - start) + "ms");
 
-        int[][] array = NumberRange.getRangeArray(sheet.getLastRowNum()+1,POOL_SIZE,TITLE_ROWS);
+        int[][] array = NumberRange.getRangeArray(sheet.getLastRowNum() + 1, POOL_SIZE, TITLE_ROWS);
 
-        for(int i =0;i<POOL_SIZE;i++){
-            es.submit(new ImportTask(doneSignal,sheet,array[i][0],array[i][1]));
+        for (int i = 0; i < POOL_SIZE; i++) {
+            es.submit(new ImportTask(doneSignal, sheet, array[i][0], array[i][1]));
         }
 
         try {
