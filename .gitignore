@@ -18,4 +18,4 @@ target
 
 # ignore idea files
 .idea
-j2se.iml
+javase.iml
