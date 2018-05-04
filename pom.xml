@@ -7,9 +7,10 @@
 	<dependencies>
 		<!-- JSON转换相关依赖 -->
 		<dependency>
-			<groupId>net.sf.json</groupId>
-			<artifactId>json</artifactId>
-			<version>2.4.0</version>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.ezmorph</groupId>
@@ -54,8 +55,7 @@
 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
-			<version>11.2.0.1.0</version>
-			<scope>test</scope>
+			<version>11.2.0.3</version>
 		</dependency>
 		<!-- 发送邮件 -->
 		<dependency>
@@ -78,17 +78,17 @@
 			<version>1.2.32</version>
 		</dependency>
 
-		<!-- 二维码  -->
+		<!-- 二维码 -->
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
 			<version>3.3.0</version>
 		</dependency>
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>javase</artifactId>
-            <version>3.3.0</version>
-        </dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.3.0</version>
+		</dependency>
 
 	</dependencies>
 </project>
