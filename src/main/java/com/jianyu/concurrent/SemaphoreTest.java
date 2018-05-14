@@ -1,9 +1,11 @@
-package com.jianyu.thread.concurrent;
+package com.jianyu.concurrent;
 
 import java.util.concurrent.Semaphore;
 
 /**
- * Semaphore
+ * Semaphore  [ˈseməfɔ:(r)]
+ * Semaphore管理一系列许可证
+ * 
  * acquire()方法
  * release()方法
  * tryAcquire()
