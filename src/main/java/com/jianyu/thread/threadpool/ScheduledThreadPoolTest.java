@@ -4,6 +4,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 支持定时任务的线程池
+ * @author BaiJianyu <br>
+ * @date 2018年5月14日下午3:22:05 <br>
+ * Better late than never. <br>
+ */
 public class ScheduledThreadPoolTest {
     public static void main(String[] args) {
         ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(5);

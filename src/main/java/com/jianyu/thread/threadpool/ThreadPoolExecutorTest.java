@@ -4,6 +4,12 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 未经封装的 ThreadPoolExecutor 测试
+ * @author BaiJianyu <br>
+ * @date 2018年5月14日下午3:06:13 <br>
+ * Better late than never. <br>
+ */
 public class ThreadPoolExecutorTest {
     public static void main(String[] args) {
         ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 10, 200, TimeUnit.MILLISECONDS,
