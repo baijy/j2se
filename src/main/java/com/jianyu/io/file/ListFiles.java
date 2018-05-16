@@ -1,4 +1,4 @@
-package file;
+package com.jianyu.io.file;
 
 import java.io.File;
 //import it.sauronsoftware.jave.Encoder;
