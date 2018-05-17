@@ -160,6 +160,7 @@ public class FormHttp {
         byte[] bs = str.getBytes();
         FileOutputStream fos  =new FileOutputStream("E:/长沙公积金咨询问题.txt",true);
         fos.write(bs);
+        fos.close();
 	}
 
 }
